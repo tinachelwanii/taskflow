@@ -82,27 +82,36 @@ MongoDB Atlas is used as the persistent database.
 Task data is stored in MongoDB rather than in application memory or local JSON files, so data persists across server restarts.
 
 ---
-
 ## Project Structure
-
-```text
 taskflow/
 │
 ├── client/
 │   ├── public/
-│   └── src/
-│       ├── pages/
-│       │   ├── Dashboard.jsx
-│       │   ├── Login.jsx
-│       │   └── Register.jsx
-│       │
-│       ├── services/
-│       │   └── api.js
-│       │
-│       ├── App.jsx
-│       ├── App.css
-│       ├── index.css
-│       └── main.jsx
+│   │
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Login.jsx
+│   │   │   └── Register.jsx
+│   │   │
+│   │   ├── services/
+│   │   │   └── api.js
+│   │   │
+│   │   ├── App.css
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
+│   │
+│   ├── .gitignore
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── README.md
+│   └── vite.config.js
 │
 ├── server/
 │   ├── config/
@@ -123,8 +132,10 @@ taskflow/
 │   │   ├── authRoutes.js
 │   │   └── taskRoutes.js
 │   │
-│   ├── server.js
-│   └── package.json
+│   ├── .gitignore
+│   ├── package-lock.json
+│   ├── package.json
+│   └── server.js
 │
 ├── .gitignore
 └── README.md
