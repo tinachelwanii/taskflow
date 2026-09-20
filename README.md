@@ -296,8 +296,6 @@ Passwords are hashed using bcrypt before being stored in the database. Plain-tex
 
 ### Task Organization
 
-### Task Organization
-
 Instead of keeping tasks as a simple flat list, I chose features that directly help users organize and find their work: priorities, due dates, search, filtering, sorting, and task statistics.
 
 I intentionally focused on lightweight organization features rather than adding more complex functionality such as real-time collaboration or task sharing.
