@@ -140,3 +140,171 @@ taskflow/
 │
 ├── .gitignore
 └── README.md
+---
+
+## Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- Node.js
+- npm
+- MongoDB Atlas account or a MongoDB instance
+- Git
+
+### Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/tinachelwanii/taskflow.git
+cd taskflow
+
+Install frontend dependencies:
+
+```bash
+cd client
+npm install
+
+Install backend dependencies:
+
+```bash
+cd ../server
+npm install
+
+Environment Variables
+
+Create a .env file inside the server directory:
+
+```bash
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+PORT=5000
+
+The .env file should not be committed to GitHub. It is excluded through .gitignore.
+
+Running the Application
+Start the Backend
+
+From the server directory:
+```bash
+npm run dev
+
+The backend runs on:
+```bash
+http://localhost:5000
+Start the Frontend
+
+Open another terminal and navigate to the client directory:
+```bash
+cd client
+npm run dev
+
+The frontend normally runs on:
+```bash
+http://localhost:5173
+
+Open the frontend URL in your browser to use TaskFlow.
+
+Data Model
+User
+
+Each user contains:
+
+Name
+Email
+Hashed password
+Created timestamp
+Updated timestamp
+
+Passwords are hashed using bcrypt before being stored in the database.
+
+Task
+
+Each task contains:
+
+Title
+Description
+Completion status
+Due date
+Priority
+User reference
+Created timestamp
+Updated timestamp
+
+Each task is associated with the authenticated user through a MongoDB reference. This keeps task data separated between users.
+
+Authentication Flow
+
+TaskFlow uses JWT-based authentication.
+
+A user registers an account.
+The password is hashed using bcrypt before being stored.
+The user logs in using their email and password.
+The backend verifies the credentials.
+A JWT token is generated after successful authentication.
+The frontend stores the token locally.
+Protected task requests send the token in the Authorization header.
+Authentication middleware verifies the token before allowing access to protected task routes.
+Design Decisions
+Persistent Database
+
+MongoDB was selected for persistent task storage so that data survives server restarts instead of relying on in-memory storage or JSON files.
+
+User-Specific Tasks
+
+Each task stores a reference to the user who created it. This allows multiple users to use the application while keeping their task data separated.
+
+JWT Authentication
+
+JWT was used to provide a straightforward authentication mechanism for protecting task-related API routes.
+
+Password Security
+
+Passwords are hashed using bcrypt before being stored in the database. Plain-text passwords are never stored.
+
+Task Organization
+
+Instead of keeping tasks as a simple flat list, TaskFlow includes priorities, due dates, search, filtering, sorting, and task statistics.
+
+Frontend Structure
+
+The frontend separates pages and API communication into different directories to keep the code organized and easier to maintain.
+
+Validation and Error Handling
+
+The application handles common invalid states and API errors, including:
+
+Empty required fields
+Invalid login credentials
+Existing email during registration
+Missing authentication token
+Invalid authentication token
+Empty task titles
+Invalid task requests
+API and network errors
+Loading states during API requests
+
+The frontend provides user feedback when an operation is loading or when an error occurs.
+
+Testing
+
+The application was manually tested across the main user flows, including:
+
+User registration
+User login
+Invalid login credentials
+Task creation
+Task editing
+Task completion and reopening
+Task deletion
+Search
+Filtering
+Sorting
+Task priority
+Due dates
+Page refresh and persistent database data
+Authentication-protected routes
+Empty input validation
+Multiple browser tabs
