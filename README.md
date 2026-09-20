@@ -343,3 +343,15 @@ The application was manually tested across the main user flows, including:
 * Empty input validation
 * Multiple browser tabs
 
+## Deliberately Not Built
+
+To keep the scope focused on the core task-management experience within the assignment timeframe, I intentionally did not build:
+
+- Real-time collaboration
+- Task sharing between users
+- Notifications and reminders
+- Recurring tasks
+- File attachments
+- Admin functionality
+
+These could be considered in a future version depending on actual user needs.
