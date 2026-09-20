@@ -271,7 +271,7 @@ TaskFlow uses JWT-based authentication.
 4. The backend verifies the credentials.
 5. A JWT token is generated after successful authentication.
 6. The frontend stores the authentication token in sessionStorage for the current browser tab.
-7. 7. Protected task requests send the token in the `Authorization` header.
+7. Protected task requests send the token in the `Authorization` header.
 8. Authentication middleware verifies the token before allowing access to protected task routes.
 
 ---
