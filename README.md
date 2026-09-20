@@ -343,10 +343,3 @@ The application was manually tested across the main user flows, including:
 * Empty input validation
 * Multiple browser tabs
 
-
-Task priority
-Due dates
-Page refresh and persistent database data
-Authentication-protected routes
-Empty input validation
-Multiple browser tabs
