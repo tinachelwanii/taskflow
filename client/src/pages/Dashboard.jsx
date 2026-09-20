@@ -28,8 +28,8 @@ function Dashboard() {
   const [editingDueDate, setEditingDueDate] = useState("");
   const [savingEdit, setSavingEdit] = useState(false);
 
-  const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
+  const token = sessionStorage.getItem("token");
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
   // Show message
   const showMessage = (text, type = "error") => {
@@ -292,11 +292,10 @@ function Dashboard() {
 
   // Logout
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    window.location.href = "/";
-  };
-
+  sessionStorage.removeItem("token");
+  sessionStorage.removeItem("user");
+  window.location.href = "/";
+};
   const completedCount = tasks.filter(
     (task) => task.completed
   ).length;
