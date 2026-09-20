@@ -18,7 +18,7 @@ The project was built as a practical full-stack assignment with a focus on clean
 - Password hashing using bcrypt
 - Protected task APIs
 - User-specific task data
-- Automatic logout/access protection through authentication
+- Protected routes and API access through authentication
 
 ### Task Management
 
@@ -296,7 +296,11 @@ Passwords are hashed using bcrypt before being stored in the database. Plain-tex
 
 ### Task Organization
 
-Instead of keeping tasks as a simple flat list, TaskFlow includes priorities, due dates, search, filtering, sorting, and task statistics.
+### Task Organization
+
+Instead of keeping tasks as a simple flat list, I chose features that directly help users organize and find their work: priorities, due dates, search, filtering, sorting, and task statistics.
+
+I intentionally focused on lightweight organization features rather than adding more complex functionality such as real-time collaboration or task sharing.
 
 ### Frontend Structure
 
@@ -341,7 +345,7 @@ The application was manually tested across the main user flows, including:
 * Page refresh and persistent database data
 * Authentication-protected routes
 * Empty input validation
-* Multiple browser tabs
+* Multiple browser tabs with independent authentication sessions
 
 ## Deliberately Not Built
 
