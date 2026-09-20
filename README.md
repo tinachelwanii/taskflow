@@ -355,3 +355,15 @@ To keep the scope focused on the core task-management experience within the assi
 - Admin functionality
 
 These could be considered in a future version depending on actual user needs.
+
+## Future Improvements
+
+If TaskFlow were developed further, I would consider:
+
+- Task categories or tags
+- Recurring tasks
+- Notifications and reminders
+- Pagination for larger task lists
+- Automated unit and integration tests
+- More advanced accessibility improvements
+- Production deployment and monitoring
