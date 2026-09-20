@@ -83,6 +83,7 @@ Task data is stored in MongoDB rather than in application memory or local JSON f
 
 ---
 ## Project Structure
+```text
 taskflow/
 │
 ├── client/
