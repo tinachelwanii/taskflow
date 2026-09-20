@@ -5,6 +5,7 @@ function Dashboard() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
   const [priority, setPriority] = useState("medium");
+  const [dueDate, setDueDate] = useState("");
 
   // Loading states
   const [loading, setLoading] = useState(true);
@@ -24,6 +25,7 @@ function Dashboard() {
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [editingTitle, setEditingTitle] = useState("");
   const [editingPriority, setEditingPriority] = useState("medium");
+  const [editingDueDate, setEditingDueDate] = useState("");
   const [savingEdit, setSavingEdit] = useState(false);
 
   const token = localStorage.getItem("token");
@@ -94,6 +96,7 @@ function Dashboard() {
         {
           title: trimmedTitle,
           priority,
+          dueDate: dueDate || null,
         },
         {
           headers: {
@@ -105,6 +108,7 @@ function Dashboard() {
       setTasks((prev) => [response.data, ...prev]);
       setTitle("");
       setPriority("medium");
+      setDueDate("");
 
       showMessage("Task created successfully.", "success");
     } catch (error) {
@@ -168,6 +172,13 @@ function Dashboard() {
     setEditingTaskId(task._id);
     setEditingTitle(task.title);
     setEditingPriority(task.priority || "medium");
+
+    setEditingDueDate(
+      task.dueDate
+        ? new Date(task.dueDate).toISOString().split("T")[0]
+        : ""
+    );
+
     setMessage("");
   };
 
@@ -178,6 +189,7 @@ function Dashboard() {
     setEditingTaskId(null);
     setEditingTitle("");
     setEditingPriority("medium");
+    setEditingDueDate("");
   };
 
   // Save edited task
@@ -205,6 +217,7 @@ function Dashboard() {
         {
           title: trimmedTitle,
           priority: editingPriority,
+          dueDate: editingDueDate || null,
         },
         {
           headers: {
@@ -222,6 +235,7 @@ function Dashboard() {
       setEditingTaskId(null);
       setEditingTitle("");
       setEditingPriority("medium");
+      setEditingDueDate("");
 
       showMessage("Task updated successfully.", "success");
     } catch (error) {
@@ -290,6 +304,30 @@ function Dashboard() {
   const pendingCount = tasks.filter(
     (task) => !task.completed
   ).length;
+
+  // Check if a task is overdue
+  const isOverdue = (task) => {
+    if (!task.dueDate || task.completed) {
+      return false;
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const taskDueDate = new Date(task.dueDate);
+    taskDueDate.setHours(0, 0, 0, 0);
+
+    return taskDueDate < today;
+  };
+
+  // Format due date
+  const formatDueDate = (date) => {
+    return new Date(date).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
   // Filter + search + sorting
   const filteredTasks = tasks
@@ -499,6 +537,15 @@ function Dashboard() {
               className="min-w-0 flex-1 rounded-xl border border-[#ead8f5] bg-[#fdf7ff] px-4 py-3 text-sm text-[#59358a] outline-none transition placeholder:text-[#bda8d0] focus:border-[#dc95ff] focus:bg-white focus:ring-4 focus:ring-[#ffbefb]/30 disabled:cursor-not-allowed disabled:opacity-60"
             />
 
+            {/* Due date */}
+            <input
+              type="date"
+              value={dueDate}
+              disabled={creatingTask}
+              onChange={(e) => setDueDate(e.target.value)}
+              className="rounded-xl border border-[#ead8f5] bg-[#fdf7ff] px-4 py-3 text-sm font-medium text-[#8c56d4] outline-none transition focus:border-[#dc95ff] focus:bg-white focus:ring-4 focus:ring-[#ffbefb]/30 disabled:cursor-not-allowed disabled:opacity-60"
+            />
+
             <select
               value={priority}
               disabled={creatingTask}
@@ -677,6 +724,17 @@ function Dashboard() {
                           className="min-w-0 flex-1 rounded-xl border border-[#dc95ff]/70 bg-[#fdf7ff] px-4 py-3 text-sm text-[#59358a] outline-none transition focus:border-[#8c56d4] focus:bg-white focus:ring-4 focus:ring-[#ffbefb]/30 disabled:opacity-60"
                         />
 
+                        {/* Edit due date */}
+                        <input
+                          type="date"
+                          value={editingDueDate}
+                          disabled={savingEdit}
+                          onChange={(e) =>
+                            setEditingDueDate(e.target.value)
+                          }
+                          className="rounded-xl border border-[#ead8f5] bg-[#fdf7ff] px-4 py-3 text-sm font-medium text-[#8c56d4] outline-none transition focus:border-[#dc95ff] focus:bg-white focus:ring-4 focus:ring-[#ffbefb]/30 disabled:opacity-60"
+                        />
+
                         <select
                           value={editingPriority}
                           disabled={savingEdit}
@@ -741,7 +799,8 @@ function Dashboard() {
                             {task.title}
                           </p>
 
-                          <div className="mt-2 flex flex-wrap gap-2">
+                          <div className="mt-2 flex flex-wrap items-center gap-2">
+                            {/* Status */}
                             <span
                               className={`rounded-full px-3 py-1 text-xs font-medium ${
                                 task.completed
@@ -754,6 +813,7 @@ function Dashboard() {
                                 : "Pending"}
                             </span>
 
+                            {/* Priority */}
                             <span
                               className={`rounded-full px-3 py-1 text-xs font-medium ${getPriorityStyle(
                                 task.priority
@@ -761,6 +821,26 @@ function Dashboard() {
                             >
                               {getPriorityLabel(task.priority)} priority
                             </span>
+
+                            {/* Due date */}
+                            {task.dueDate && (
+                              <span
+                                className={`rounded-full px-3 py-1 text-xs font-medium ${
+                                  isOverdue(task)
+                                    ? "bg-red-50 text-red-600"
+                                    : "bg-[#f3e8ff] text-[#8c56d4]"
+                                }`}
+                              >
+                                {isOverdue(task) ? "⚠️" : "📅"}{" "}
+                                {isOverdue(task)
+                                  ? `Overdue · ${formatDueDate(
+                                      task.dueDate
+                                    )}`
+                                  : `Due · ${formatDueDate(
+                                      task.dueDate
+                                    )}`}
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
